@@ -1,0 +1,169 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+-----------+------------+--------------+-------------+--------------+
+| licensenumber | firstname | lastname   | specialty    | licensedate | hospitalcode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| AA05          | Norman    | Bethune    | Surgeon      | 1923-01-01  | ABC          |
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| HT45          | Ross      | Clooney    | Surgeon      | 1987-06-20  | DDE          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
++---------------+-----------+------------+--------------+-------------+--------------+
+7 rows in set (0.00 sec)
+
+ERROR 1054 (42S22) at line 5: Unknown column 'lincensedate' in 'where clause'
+--------------
+DELETE FROM doctor WHERE lincensedate < '1965-01-01'
+--------------
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+-----------+------------+--------------+-------------+--------------+
+| licensenumber | firstname | lastname   | specialty    | licensedate | hospitalcode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| AA05          | Norman    | Bethune    | Surgeon      | 1923-01-01  | ABC          |
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| HT45          | Ross      | Clooney    | Surgeon      | 1987-06-20  | DDE          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
++---------------+-----------+------------+--------------+-------------+--------------+
+7 rows in set (0.00 sec)
+
+--------------
+CREATE VIEW V1 AS SELECT patient.firstname AS patfirstname, patient.lastname AS patlastname,hospital.hospitalname AS hospname,doctor.lastname AS doclast FROM patient,doctor,hospital WHERE doctor.licensenumber IN(SELECT licensenumber FROM treat WHERE licensenumber IN (SELECT headdocid FROM hospital WHERE headdate > "1995-12-31")) AND doctor.hospitalcode=hospital.hospitalcode
+--------------
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------
+SELECT * FROM V1
+--------------
+
++--------------+-------------+------------+---------+
+| patfirstname | patlastname | hospname   | doclast |
++--------------+-------------+------------+---------+
+| Bill         | Gellar      | St. Joseph | Shabado |
+| Suzi         | Brown       | St. Joseph | Shabado |
+| Jon          | Green       | St. Joseph | Shabado |
+| Zihang       | Lin         | St. Joseph | Shabado |
+| Colleen      | Gellar      | St. Joseph | Shabado |
+| Sean         | Gellar      | St. Joseph | Shabado |
+| Scotty       | Bing        | St. Joseph | Shabado |
++--------------+-------------+------------+---------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+-----------+------------+--------------+-------------+--------------+
+| licensenumber | firstname | lastname   | specialty    | licensedate | hospitalcode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| AA05          | Norman    | Bethune    | Surgeon      | 1923-01-01  | ABC          |
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| HT45          | Ross      | Clooney    | Surgeon      | 1987-06-20  | DDE          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
++---------------+-----------+------------+--------------+-------------+--------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM treat
+--------------
+
++-----------+---------------+
+| OHIP      | licensenumber |
++-----------+---------------+
+| 110112113 | GD56          |
+| 444555666 | HT45          |
+| 444555666 | JK78          |
+| 111222333 | SE66          |
+| 111222333 | HT45          |
+| 111222333 | JK78          |
+| 333444555 | GD56          |
+| 667766777 | HT45          |
+| 667766777 | JK78          |
+| 667766777 | GD56          |
+| 111222111 | HT45          |
+| 123456666 | AA05          |
++-----------+---------------+
+12 rows in set (0.00 sec)
+
+ERROR 1451 (23000) at line 16: Cannot delete or update a parent row: a foreign key constraint fails (`zlin262assign2db`.`treat`, CONSTRAINT `licensenumber` FOREIGN KEY (`licensenumber`) REFERENCES `doctor` (`licensenumber`))
+--------------
+DELETE FROM doctor WHERE lastname ="Clooney"
+--------------
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+-----------+------------+--------------+-------------+--------------+
+| licensenumber | firstname | lastname   | specialty    | licensedate | hospitalcode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| AA05          | Norman    | Bethune    | Surgeon      | 1923-01-01  | ABC          |
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| HT45          | Ross      | Clooney    | Surgeon      | 1987-06-20  | DDE          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
++---------------+-----------+------------+--------------+-------------+--------------+
+7 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM treat
+--------------
+
++-----------+---------------+
+| OHIP      | licensenumber |
++-----------+---------------+
+| 110112113 | GD56          |
+| 444555666 | HT45          |
+| 444555666 | JK78          |
+| 111222333 | SE66          |
+| 111222333 | HT45          |
+| 111222333 | JK78          |
+| 333444555 | GD56          |
+| 667766777 | HT45          |
+| 667766777 | JK78          |
+| 667766777 | GD56          |
+| 111222111 | HT45          |
+| 123456666 | AA05          |
++-----------+---------------+
+12 rows in set (0.00 sec)
+
+--------------
+SELECT * FROM doctor
+--------------
+
++---------------+-----------+------------+--------------+-------------+--------------+
+| licensenumber | firstname | lastname   | specialty    | licensedate | hospitalcode |
++---------------+-----------+------------+--------------+-------------+--------------+
+| AA05          | Norman    | Bethune    | Surgeon      | 1923-01-01  | ABC          |
+| GD56          | Joey      | Shabado    | Podiatrist   | 1960-06-24  | BBC          |
+| HT45          | Ross      | Clooney    | Surgeon      | 1987-06-20  | DDE          |
+| JK78          | Mandy     | Webster    | Surgeon      | 1990-08-08  | BBC          |
+| RD34          | Bernie    | Kavorikian | Urologist    | 1980-09-09  | BBC          |
+| SE66          | Colleen   | Aziz       | Surgeon      | 1989-08-24  | ABC          |
+| YT67          | Ben       | Spock      | Pediatrician | 1955-02-20  | DDE          |
++---------------+-----------+------------+--------------+-------------+--------------+
+7 rows in set (0.00 sec)
+
+ERROR 1451 (23000) at line 21: Cannot delete or update a parent row: a foreign key constraint fails (`zlin262assign2db`.`treat`, CONSTRAINT `licensenumber` FOREIGN KEY (`licensenumber`) REFERENCES `doctor` (`licensenumber`))
+--------------
+DELETE FROM doctor WHERE specialty ="Surgeon"
+--------------
+
+Bye
