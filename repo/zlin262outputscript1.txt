@@ -18,7 +18,7 @@ SHOW databases
 DROP DATABASE IF EXISTS zlin262assign2db
 --------------
 
-Query OK, 4 rows affected (0.26 sec)
+Query OK, 5 rows affected (0.31 sec)
 
 --------------
 CREATE DATABASE zlin262assign2db
@@ -45,7 +45,7 @@ CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319'
 Query OK, 0 rows affected (0.00 sec)
 
 --------------
-GRANT ALL PRIVILEGES ON wchen385assign2db.* TO 'ta'@'localhost'
+GRANT ALL PRIVILEGES ON zlin262assign2db.* TO 'ta'@'localhost'
 --------------
 
 Query OK, 0 rows affected (0.00 sec)
@@ -54,7 +54,7 @@ Query OK, 0 rows affected (0.00 sec)
 FLUSH PRIVILEGES
 --------------
 
-Query OK, 0 rows affected (0.00 sec)
+Query OK, 0 rows affected (0.01 sec)
 
 --------------
 SHOW tables
@@ -66,19 +66,19 @@ Empty set (0.00 sec)
 CREATE TABLE doctor (licensenumber CHAR(4) NOT NULL, firstname VARCHAR(20) NOT NULL, lastname VARCHAR(20) NOT NULL, specialty VARCHAR(30) NOT NULL, licensedate DATE NOT NULL, hospitalcode CHAR(3), PRIMARY KEY (licensenumber))
 --------------
 
-Query OK, 0 rows affected (0.24 sec)
+Query OK, 0 rows affected (0.06 sec)
 
 --------------
 CREATE TABLE patient (OHIP INT(9) NOT NULL, firstname CHAR(20) NOT NULL, lastname CHAR(20) NOT NULL, PRIMARY KEY(OHIP))
 --------------
 
-Query OK, 0 rows affected (0.05 sec)
+Query OK, 0 rows affected (0.04 sec)
 
 --------------
 CREATE TABLE hospital (hospitalcode CHAR(3) NOT NULL, hospitalname CHAR(20) NOT NULL, city CHAR(20) NOT NULL, province CHAR(2) NOT NULL, bed INT NOT NULL,headdate DATE, headdocid CHAR(4), CONSTRAINT headdocid FOREIGN KEY (headdocid) REFERENCES doctor(licensenumber), PRIMARY KEY (hospitalcode))
 --------------
 
-Query OK, 0 rows affected (0.06 sec)
+Query OK, 0 rows affected (0.07 sec)
 
 --------------
 CREATE TABLE treat(OHIP INT(9) NOT NULL, licensenumber CHAR(4) NOT NULL, CONSTRAINT OHIP FOREIGN KEY (OHIP) REFERENCES patient(OHIP),CONSTRAINT licensenumber FOREIGN KEY(licensenumber) REFERENCES doctor(licensenumber))
