@@ -2,13 +2,13 @@
 USE zlin262assign2db;
 -- delete
 SELECT * FROM doctor;
-DELETE FROM doctor WHERE lincensedate < '1965-01-01';
+DELETE FROM doctor WHERE licensedate < '1965-01-01';
 SELECT * FROM doctor;
 -- delete doesn't work because foreign key error occur, this row of doctor is use in other place.
 -- Create a view
-CREATE VIEW V1 AS SELECT patient.firstname AS patfirstname, patient.lastname AS patlastname,hospital.hospitalname AS hospname,doctor.lastname AS doclast FROM patient,doctor,hospital WHERE doctor.licensenumber IN(SELECT licensenumber FROM treat WHERE licensenumber IN (SELECT headdocid FROM hospital WHERE headdate > "1995-12-31")) AND doctor.hospitalcode=hospital.hospitalcode;
+CREATE VIEW T1 AS SELECT patient.firstname AS patfirstname, patient.lastname AS patlastname,hospital.hospitalname AS hospname,doctor.lastname AS doclast FROM patient,doctor,hospital WHERE doctor.licensenumber IN(SELECT licensenumber FROM treat WHERE licensenumber IN (SELECT headdocid FROM hospital WHERE headdate > "1995-12-31")) AND doctor.hospitalcode=hospital.hospitalcode;
 -- Prove that your view works by selecting all the rows from it. 
-SELECT * FROM V1;
+SELECT * FROM T1;
 -- Show all the data in the doctor table and show all the data in the treats table
 SELECT * FROM doctor;
 SELECT * FROM treat;

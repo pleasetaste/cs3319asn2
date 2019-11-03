@@ -16,9 +16,9 @@ SELECT * FROM doctor
 +---------------+-----------+------------+--------------+-------------+--------------+
 7 rows in set (0.00 sec)
 
-ERROR 1054 (42S22) at line 5: Unknown column 'lincensedate' in 'where clause'
+ERROR 1451 (23000) at line 5: Cannot delete or update a parent row: a foreign key constraint fails (`zlin262assign2db`.`treat`, CONSTRAINT `licensenumber` FOREIGN KEY (`licensenumber`) REFERENCES `doctor` (`licensenumber`))
 --------------
-DELETE FROM doctor WHERE lincensedate < '1965-01-01'
+DELETE FROM doctor WHERE licensedate < '1965-01-01'
 --------------
 
 --------------
@@ -39,13 +39,13 @@ SELECT * FROM doctor
 7 rows in set (0.00 sec)
 
 --------------
-CREATE VIEW V1 AS SELECT patient.firstname AS patfirstname, patient.lastname AS patlastname,hospital.hospitalname AS hospname,doctor.lastname AS doclast FROM patient,doctor,hospital WHERE doctor.licensenumber IN(SELECT licensenumber FROM treat WHERE licensenumber IN (SELECT headdocid FROM hospital WHERE headdate > "1995-12-31")) AND doctor.hospitalcode=hospital.hospitalcode
+CREATE VIEW T1 AS SELECT patient.firstname AS patfirstname, patient.lastname AS patlastname,hospital.hospitalname AS hospname,doctor.lastname AS doclast FROM patient,doctor,hospital WHERE doctor.licensenumber IN(SELECT licensenumber FROM treat WHERE licensenumber IN (SELECT headdocid FROM hospital WHERE headdate > "1995-12-31")) AND doctor.hospitalcode=hospital.hospitalcode
 --------------
 
-Query OK, 0 rows affected (0.02 sec)
+Query OK, 0 rows affected (0.01 sec)
 
 --------------
-SELECT * FROM V1
+SELECT * FROM T1
 --------------
 
 +--------------+-------------+------------+---------+
